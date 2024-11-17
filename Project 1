@@ -1,0 +1,70 @@
+import pygame
+import random
+
+# Initialize Pygame
+pygame.init()
+
+# Screen dimensions
+WIDTH, HEIGHT = 600, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Ludo Game")
+
+# Colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+GREEN = (0, 255, 0)
+YELLOW = (255, 255, 0)
+
+# Fonts
+font = pygame.font.SysFont("Arial", 30)
+
+# Dice variables
+dice_value = 1
+
+# Player positions (starting positions for four players)
+players = {
+    "RED": [0, 0],
+    "BLUE": [0, 0],
+    "GREEN": [0, 0],
+    "YELLOW": [0, 0],
+}
+
+# Draw the Ludo board
+def draw_board():
+    screen.fill(WHITE)
+    pygame.draw.rect(screen, RED, (0, 0, 200, 200))       # Red home
+    pygame.draw.rect(screen, BLUE, (400, 0, 200, 200))    # Blue home
+    pygame.draw.rect(screen, GREEN, (0, 400, 200, 200))   # Green home
+    pygame.draw.rect(screen, YELLOW, (400, 400, 200, 200))  # Yellow home
+    pygame.draw.rect(screen, BLACK, (200, 200, 200, 200), 2)  # Play area border
+
+# Roll the dice
+def roll_dice():
+    return random.randint(1, 6)
+
+# Display dice value
+def display_dice(value):
+    dice_text = font.render(f"Dice: {value}", True, BLACK)
+    screen.blit(dice_text, (250, 550))
+
+# Main game loop
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            # Roll dice on mouse click
+            dice_value = roll_dice()
+
+    # Draw everything
+    draw_board()
+    display_dice(dice_value)
+
+    # Update the display
+    pygame.display.flip()
+
+# Quit Pygame
+pygame.quit()
